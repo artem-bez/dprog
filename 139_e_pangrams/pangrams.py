@@ -25,8 +25,8 @@ def get_input():
 
 def main():
     for i in map(str.lower, get_input()):
-        print(is_pangram(i), end=' ')
         c = Counter(char for char in i if char in alphabet)
+        print(is_pangram(c), end=' ')
         sorted_c = sorted(c.items())
         fmted_c = starmap('{}: {}'.format, sorted_c)
         print(', '.join(fmted_c))

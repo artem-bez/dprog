@@ -28,10 +28,9 @@ def input_(inp):
 class PangramTest(unittest.TestCase):
 
     def check_pang_main(self, inp, expected_out):
-        with input_(inp):
-            with stdout() as out:
-                pangrams.main()
-                self.assertEqual(out.getvalue(), expected_out)
+        with input_(inp), stdout() as out:
+            pangrams.main()
+            self.assertEqual(out.getvalue(), expected_out)
 
     def test_pangram(self):
         inp = ('1\n'

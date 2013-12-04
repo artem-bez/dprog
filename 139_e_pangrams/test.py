@@ -6,29 +6,30 @@ from io import StringIO
 
 
 @contextlib.contextmanager
-def stdout():
-    _orig_out = sys.stdout
-    sys.stdout = StringIO()
+def capture(stream_name):
+    orig_stream = getattr(sys, stream_name)
+    setattr(sys, stream_name, StringIO())
     try:
-        yield sys.stdout
+        yield getattr(sys, stream_name)
     finally:
-        sys.stdout = _orig_out
+        setattr(sys, stream_name, orig_stream)
 
+def stdout():
+    return capture('stdout')
 
 @contextlib.contextmanager
-def input_(inp):
-    _orig_in = sys.stdin
-    sys.stdin = StringIO(inp)
-    try:
-        yield sys.stdin
-    finally:
-        sys.stdin = _orig_in
+def stdin(input_=None):
+    with capture('stdin') as stdin:
+        if input_:
+            stdin.write(input_)
+            stdin.seek(0)
+            yield stdin
 
 
 class PangramTest(unittest.TestCase):
 
     def check_pang_main(self, inp, expected_out):
-        with input_(inp), stdout() as out:
+        with stdin(inp), stdout() as out:
             pangrams.main()
             self.assertEqual(out.getvalue(), expected_out)
 

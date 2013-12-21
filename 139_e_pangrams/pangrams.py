@@ -23,13 +23,17 @@ def get_input():
     return inputs
 
 
+def print_letters(letters):
+    sorted_letters = sorted(letters.items())
+    fmted_letters = starmap('{}: {}'.format, sorted_letters)
+    print(', '.join(fmted_letters))
+
+
 def main():
     for i in map(str.lower, get_input()):
-        c = Counter(char for char in i if char in ALPHABET)
-        print(is_pangram(c), end=' ')
-        sorted_c = sorted(c.items())
-        fmted_c = starmap('{}: {}'.format, sorted_c)
-        print(', '.join(fmted_c))
+        letters = Counter(char for char in i if char in ALPHABET)
+        print(is_pangram(letters), end=' ')
+        print_letters(letters)
     return 0
 
 if __name__ == '__main__':

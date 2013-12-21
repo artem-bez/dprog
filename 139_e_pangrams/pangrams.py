@@ -7,12 +7,12 @@ import sys
 from collections import Counter
 from itertools import starmap
 
-alphabet = set(string.ascii_lowercase)
+ALPHABET = set(string.ascii_lowercase)
 
 
 def is_pangram(iterable):
     input_chars = set(iterable)
-    missing_chars = alphabet - input_chars
+    missing_chars = ALPHABET - input_chars
     return not missing_chars
 
 
@@ -25,7 +25,7 @@ def get_input():
 
 def main():
     for i in map(str.lower, get_input()):
-        c = Counter(char for char in i if char in alphabet)
+        c = Counter(char for char in i if char in ALPHABET)
         print(is_pangram(c), end=' ')
         sorted_c = sorted(c.items())
         fmted_c = starmap('{}: {}'.format, sorted_c)
